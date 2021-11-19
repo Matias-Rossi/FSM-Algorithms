@@ -105,6 +105,7 @@ class Thompson:
 
 
 if __name__ == "__main__":
+    '''
     # test Basic
     print("- Basic Test -")
     basic = Thompson.basicSymbol('a')
@@ -126,6 +127,17 @@ if __name__ == "__main__":
     print("\n\n- Kleene Test -")
     kleene = Thompson.thompsonKleene(basicA)
     kleene.printTransitions()
+'''
+    # test (ab + b)*+c
+    print("\n\n- (ab + b)* + c Test -")
+    aFSM = Thompson.basicSymbol('a')
+    bFSM = Thompson.basicSymbol('b')
+    cFSM = Thompson.basicSymbol('c')
+    abConcat = Thompson.thompsonConcat(aFSM, bFSM)
+    abUb = Thompson.thompsonUnion(abConcat, bFSM)
+    kleeneTst = Thompson.thompsonKleene(abUb)
+    entireTst = Thompson.thompsonUnion(kleeneTst, cFSM)
+    entireTst.printTransitions()
 
 
 
