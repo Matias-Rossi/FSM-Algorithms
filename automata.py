@@ -29,9 +29,11 @@ class transitionTable:
     def copyFromFSM(self, oldFSM):
         copy = deepcopy(oldFSM.table)
         self.table.update(copy)
+        self.initial = oldFSM.initial
 
     def addState(self, stateName, isFinal):
         self.table[stateName] = state(stateName, isFinal)
+        return self.table[stateName]
 
     def addEntry(self, origin, via, to):
         self.table[origin].addTransition(via, to)
@@ -39,11 +41,15 @@ class transitionTable:
     def addEpsilon(self, origin, to):
         self.table[origin].addEpsilonTransition(to)
 
-    def setInitial(self, state):
-        self.initial = state
-        self.table[state].isInitial = True
+    def setInitial(self, stateId):
+        # Assert that there is only one initial state
+        for (_stateId, _stateData) in self.table.items():
+            _stateData.isInitial = False
+        # Set new initial state
+        self.initial = self.table[stateId]
+        self.table[stateId].isInitial = True
 
-    def unassignInitial(self, state):
+    def unassignInitial(self):
         self.initial.isInitial = False
         self.initial = None
 
@@ -73,6 +79,13 @@ class transitionTable:
 
         print("- End of Print -")
 
+
+    def getOnlyFinalId(self):
+        for (stateName, stateData) in self.table.items():
+            if stateData.isFinal:
+                return stateName
+
+
     def startAutomata(self, stream):
         self.currentState = self.initial
         for char in stream:
@@ -81,6 +94,8 @@ class transitionTable:
             except KeyError:
                 return False
         return self.isInFinalState
+
+
             
 
 if __name__ == '__main__':
