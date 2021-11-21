@@ -1,0 +1,227 @@
+Grammar:
+
+Rule 0     S' -> start
+Rule 1     start -> union_expr
+Rule 2     union_expr -> union_expr UNION kleene_expr
+Rule 3     union_expr -> kleene_expr
+Rule 4     kleene_expr -> kleene_expr KLEENE
+Rule 5     kleene_expr -> concat_expr
+Rule 6     concat_expr -> concat_expr primary_expr
+Rule 7     concat_expr -> concat_expr CONCAT primary_expr
+Rule 8     concat_expr -> primary_expr
+Rule 9     primary_expr -> LPAREN union_expr RPAREN
+Rule 10    primary_expr -> SYMBOL
+
+Terminals, with rules where they appear:
+
+CONCAT               : 7
+KLEENE               : 4
+LPAREN               : 9
+RPAREN               : 9
+SYMBOL               : 10
+UNION                : 2
+error                : 
+
+Nonterminals, with rules where they appear:
+
+concat_expr          : 5 6 7
+kleene_expr          : 2 3 4
+primary_expr         : 6 7 8
+start                : 0
+union_expr           : 1 2 9
+
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . union_expr
+    (2) union_expr -> . union_expr UNION kleene_expr
+    (3) union_expr -> . kleene_expr
+    (4) kleene_expr -> . kleene_expr KLEENE
+    (5) kleene_expr -> . concat_expr
+    (6) concat_expr -> . concat_expr primary_expr
+    (7) concat_expr -> . concat_expr CONCAT primary_expr
+    (8) concat_expr -> . primary_expr
+    (9) primary_expr -> . LPAREN union_expr RPAREN
+    (10) primary_expr -> . SYMBOL
+    LPAREN          shift and go to state 6
+    SYMBOL          shift and go to state 7
+
+    start                          shift and go to state 1
+    union_expr                     shift and go to state 2
+    kleene_expr                    shift and go to state 3
+    concat_expr                    shift and go to state 4
+    primary_expr                   shift and go to state 5
+
+state 1
+
+    (0) S' -> start .
+
+
+state 2
+
+    (1) start -> union_expr .
+    (2) union_expr -> union_expr . UNION kleene_expr
+    $end            reduce using rule 1 (start -> union_expr .)
+    UNION           shift and go to state 8
+
+
+state 3
+
+    (3) union_expr -> kleene_expr .
+    (4) kleene_expr -> kleene_expr . KLEENE
+    UNION           reduce using rule 3 (union_expr -> kleene_expr .)
+    $end            reduce using rule 3 (union_expr -> kleene_expr .)
+    RPAREN          reduce using rule 3 (union_expr -> kleene_expr .)
+    KLEENE          shift and go to state 9
+
+
+state 4
+
+    (5) kleene_expr -> concat_expr .
+    (6) concat_expr -> concat_expr . primary_expr
+    (7) concat_expr -> concat_expr . CONCAT primary_expr
+    (9) primary_expr -> . LPAREN union_expr RPAREN
+    (10) primary_expr -> . SYMBOL
+    KLEENE          reduce using rule 5 (kleene_expr -> concat_expr .)
+    UNION           reduce using rule 5 (kleene_expr -> concat_expr .)
+    $end            reduce using rule 5 (kleene_expr -> concat_expr .)
+    RPAREN          reduce using rule 5 (kleene_expr -> concat_expr .)
+    CONCAT          shift and go to state 11
+    LPAREN          shift and go to state 6
+    SYMBOL          shift and go to state 7
+
+    primary_expr                   shift and go to state 10
+
+state 5
+
+    (8) concat_expr -> primary_expr .
+    CONCAT          reduce using rule 8 (concat_expr -> primary_expr .)
+    LPAREN          reduce using rule 8 (concat_expr -> primary_expr .)
+    SYMBOL          reduce using rule 8 (concat_expr -> primary_expr .)
+    KLEENE          reduce using rule 8 (concat_expr -> primary_expr .)
+    UNION           reduce using rule 8 (concat_expr -> primary_expr .)
+    $end            reduce using rule 8 (concat_expr -> primary_expr .)
+    RPAREN          reduce using rule 8 (concat_expr -> primary_expr .)
+
+
+state 6
+
+    (9) primary_expr -> LPAREN . union_expr RPAREN
+    (2) union_expr -> . union_expr UNION kleene_expr
+    (3) union_expr -> . kleene_expr
+    (4) kleene_expr -> . kleene_expr KLEENE
+    (5) kleene_expr -> . concat_expr
+    (6) concat_expr -> . concat_expr primary_expr
+    (7) concat_expr -> . concat_expr CONCAT primary_expr
+    (8) concat_expr -> . primary_expr
+    (9) primary_expr -> . LPAREN union_expr RPAREN
+    (10) primary_expr -> . SYMBOL
+    LPAREN          shift and go to state 6
+    SYMBOL          shift and go to state 7
+
+    union_expr                     shift and go to state 12
+    kleene_expr                    shift and go to state 3
+    concat_expr                    shift and go to state 4
+    primary_expr                   shift and go to state 5
+
+state 7
+
+    (10) primary_expr -> SYMBOL .
+    CONCAT          reduce using rule 10 (primary_expr -> SYMBOL .)
+    LPAREN          reduce using rule 10 (primary_expr -> SYMBOL .)
+    SYMBOL          reduce using rule 10 (primary_expr -> SYMBOL .)
+    KLEENE          reduce using rule 10 (primary_expr -> SYMBOL .)
+    UNION           reduce using rule 10 (primary_expr -> SYMBOL .)
+    $end            reduce using rule 10 (primary_expr -> SYMBOL .)
+    RPAREN          reduce using rule 10 (primary_expr -> SYMBOL .)
+
+
+state 8
+
+    (2) union_expr -> union_expr UNION . kleene_expr
+    (4) kleene_expr -> . kleene_expr KLEENE
+    (5) kleene_expr -> . concat_expr
+    (6) concat_expr -> . concat_expr primary_expr
+    (7) concat_expr -> . concat_expr CONCAT primary_expr
+    (8) concat_expr -> . primary_expr
+    (9) primary_expr -> . LPAREN union_expr RPAREN
+    (10) primary_expr -> . SYMBOL
+    LPAREN          shift and go to state 6
+    SYMBOL          shift and go to state 7
+
+    kleene_expr                    shift and go to state 13
+    concat_expr                    shift and go to state 4
+    primary_expr                   shift and go to state 5
+
+state 9
+
+    (4) kleene_expr -> kleene_expr KLEENE .
+    KLEENE          reduce using rule 4 (kleene_expr -> kleene_expr KLEENE .)
+    UNION           reduce using rule 4 (kleene_expr -> kleene_expr KLEENE .)
+    $end            reduce using rule 4 (kleene_expr -> kleene_expr KLEENE .)
+    RPAREN          reduce using rule 4 (kleene_expr -> kleene_expr KLEENE .)
+
+
+state 10
+
+    (6) concat_expr -> concat_expr primary_expr .
+    CONCAT          reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+    LPAREN          reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+    SYMBOL          reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+    KLEENE          reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+    UNION           reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+    $end            reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+    RPAREN          reduce using rule 6 (concat_expr -> concat_expr primary_expr .)
+
+
+state 11
+
+    (7) concat_expr -> concat_expr CONCAT . primary_expr
+    (9) primary_expr -> . LPAREN union_expr RPAREN
+    (10) primary_expr -> . SYMBOL
+    LPAREN          shift and go to state 6
+    SYMBOL          shift and go to state 7
+
+    primary_expr                   shift and go to state 14
+
+state 12
+
+    (9) primary_expr -> LPAREN union_expr . RPAREN
+    (2) union_expr -> union_expr . UNION kleene_expr
+    RPAREN          shift and go to state 15
+    UNION           shift and go to state 8
+
+
+state 13
+
+    (2) union_expr -> union_expr UNION kleene_expr .
+    (4) kleene_expr -> kleene_expr . KLEENE
+    UNION           reduce using rule 2 (union_expr -> union_expr UNION kleene_expr .)
+    $end            reduce using rule 2 (union_expr -> union_expr UNION kleene_expr .)
+    RPAREN          reduce using rule 2 (union_expr -> union_expr UNION kleene_expr .)
+    KLEENE          shift and go to state 9
+
+
+state 14
+
+    (7) concat_expr -> concat_expr CONCAT primary_expr .
+    CONCAT          reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+    LPAREN          reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+    SYMBOL          reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+    KLEENE          reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+    UNION           reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+    $end            reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+    RPAREN          reduce using rule 7 (concat_expr -> concat_expr CONCAT primary_expr .)
+
+
+state 15
+
+    (9) primary_expr -> LPAREN union_expr RPAREN .
+    CONCAT          reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
+    LPAREN          reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
+    SYMBOL          reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
+    KLEENE          reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
+    UNION           reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
+    $end            reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
+    RPAREN          reduce using rule 9 (primary_expr -> LPAREN union_expr RPAREN .)
